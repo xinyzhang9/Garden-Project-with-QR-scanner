@@ -1,0 +1,29 @@
+<html>
+<body>
+    <h2>All Plants</h2>
+    <% if (results.length >0) { %>
+       <% for (var x in results) { %>
+       	<p>id: <%= results[x].id%></p>
+      	<p>Name: <%= results[x].name%></p>
+      	<p>Description: <%= results[x].description%></p>
+      	<p>Location: <%= results[x].location%></p>
+      	<p>Detailed Info: <%= results[x].info%></p>
+      	<p>
+      		<form action="/destroy/<%=results[x].id%>">
+            	<input type="submit" value = 'delete'>
+     		</form>
+ 		</p>
+      	<hr>
+     <% } %>
+     <form action="/destroy_all">
+            <input type="submit" value = 'destroy_all'>
+     </form>
+     <% }%>
+     <form action="/">
+            <input type="submit" value = 'create more entries'>
+     </form>
+     
+     
+</body>
+
+</html>
