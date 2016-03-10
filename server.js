@@ -1,5 +1,8 @@
 var express = require('express');
 var app = express();
+
+var fs = require('fs');
+
 var path = require('path');
 var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({extended:true}));
@@ -14,18 +17,32 @@ app.get('/', function(req,res){
 
 var results_array = [];
 var id_count = 0;
+
+//create new plants
 app.post('/plants', function(req,res){
 	console.log("POST DATA",req.body);
 	var name = req.body.name;
 	var location = req.body.location;
 	var description = req.body.description;
 	var info = req.body.info;
-	results_array.push({'id': id_count,
+	var newPlant = {'id': id_count,
 						'name':name,
 						'location':location,
 						'description':description,
-						'info':info});
+						'info':info};
+	results_array.push(newPlant);
 	id_count+=1;
+
+	//write json to file
+	var outputFilename = 'plants.json';
+	var newPlant_f = JSON.stringify(newPlant, null, 4) + ",\n";
+	fs.appendFile(outputFilename, newPlant_f, function(err) {
+	    if(err) {
+	      console.log(err);
+	    } else {
+	      console.log("JSON saved to " + outputFilename);
+	    }
+	}); 
 	res.redirect('/');
 })
 
